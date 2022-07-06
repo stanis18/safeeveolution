@@ -27,6 +27,20 @@ The  ERC1155  standard  provides  an  interface  for  managing  anycombination o
 [0xSequence](https://github.com/0xsequence/erc-1155), [Openzeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts), [Enjin](https://github.com/enjin/erc-1155), [Decentralized Stock Market](https://github.com/esdras-santos/decentralized_stock_market_ERC1155).
 
 
+**ERC3156**
+
+The ERC3156 standard is composed by ERC3156FlashBorrower and ERC3156FlashLender interfaces and together they provide a standardization for single-asset flash loans. We selected 5 ERC3156 open repositories to run the experiment.
+
+
+[ArgoBytes](https://github.com/SatoshiAndKin/argobytes-contracts.git), [Dss Flash](https://github.com/hexonaut/dss-flash.git), [Erc3156](https://github.com/fifikobayashi/ERC3156.git), [Wrappes](https://github.com/albertocuestacanada/ERC3156-Wrappers.git), [Weth10](https://github.com/WETH10/WETH10.git).
+
+**Experiment**
+
+
+In order to reproduce all experiments described in the paper you should have the [golang environment installed](https://towardsdev.com/golang-tutorial-2-installing-golang-on-linux-windows-and-mac-os-debf823eb699) and [docker](https://docs.docker.com/engine/install/).
+Then you should build the solc-verify image in the Dockerfile-solcverify.src file and write the repository file path in searchDir variable on the main.go script. Finally you should execute the go run main.go command. The experiments will be processed and the results exported to a .csv spreadsheet.
+
+
 
 ## Verify contracts
 
