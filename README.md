@@ -47,3 +47,15 @@ Then you should build the solc-verify image in the Dockerfile-solcverify.src fil
 In order to build the docker container and verify the smart contracts in this repository. Please follow the instructions presented in [solc-verify](https://github.com/SRI-CSL/solidity/blob/boogie/docker/README.md) github page.
 
 
+## Running The Verification Tool
+
+
+This Docker allows us to quickly run the Verification Tool.
+To build the tool in a docker container you should clone the project and in the tool directory run the the following command:
+
+```
+docker-compose up --build tool
+```
+
+The tool can be accessed through the link: http://localhost:3000/#/
+
