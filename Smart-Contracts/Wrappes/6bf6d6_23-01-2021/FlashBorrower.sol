@@ -2,8 +2,8 @@
 pragma solidity >= 0.5.0;
 
 import "./interfaces/IERC20.sol";
-import "erc3156/contracts/interfaces/IERC3156FlashBorrower.sol";
-import "erc3156/contracts/interfaces/IERC3156FlashLender.sol";
+import "./IERC3156FlashBorrower.sol";
+import "./IERC3156FlashLender.sol";
 
 
 contract FlashBorrower is IERC3156FlashBorrower {

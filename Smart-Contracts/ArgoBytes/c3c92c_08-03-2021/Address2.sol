@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >= 0.5.0;
 
-import {Address} from "@OpenZeppelin/utils/Address.sol";
+import {Address} from "./Address.sol";
 
 /**
  * @dev Collection of openzepplin's unreleased functions related to the address type

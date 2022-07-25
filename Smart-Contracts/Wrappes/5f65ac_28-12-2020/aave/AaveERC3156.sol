@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Derived from https://docs.aave.com/developers/guides/flash-loans
-pragma solidity ^0.7.5;
+pragma solidity >= 0.5.0;
 pragma experimental ABIEncoderV2;
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/math/SafeMath.sol";
-import { IERC3156FlashBorrower, IERC3156FlashLender } from "../interfaces/IERC3156.sol";
-import "./interfaces/AaveFlashBorrowerLike.sol";
-import "./interfaces/LendingPoolLike.sol";
-import "./interfaces/LendingPoolAddressesProviderLike.sol";
-import "./libraries/AaveDataTypes.sol";
+import "./ERC20/IERC20.sol";
+import "./SafeMath.sol";
+import { IERC3156FlashBorrower, IERC3156FlashLender } from "./IERC3156.sol";
+import "./AaveFlashBorrowerLike.sol";
+import "./LendingPoolLike.sol";
+import "./LendingPoolAddressesProviderLike.sol";
+import "./AaveDataTypes.sol";
 
 
 /**

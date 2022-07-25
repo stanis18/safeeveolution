@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Derived from https://github.com/yieldprotocol/fyDai-flash
-pragma solidity ^0.7.5;
+pragma solidity >= 0.5.0;
 
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "./libraries/SafeCast.sol";

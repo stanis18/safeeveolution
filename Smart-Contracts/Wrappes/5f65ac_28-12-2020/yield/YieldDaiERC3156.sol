@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Derived from https://github.com/yieldprotocol/fyDai-flash
-pragma solidity ^0.7.5;
+pragma solidity >= 0.5.0;
 
-import "@openzeppelin/contracts/math/SafeMath.sol";
-import "./libraries/YieldMath.sol";
-import "./libraries/SafeCast.sol";
-import { IERC3156FlashBorrower, IERC3156FlashLender } from "../interfaces/IERC3156.sol";
-import "./interfaces/YieldFlashBorrowerLike.sol";
-import "./interfaces/IPool.sol";
-import "./interfaces/IFYDai.sol";
+import "./SafeMath.sol";
+import "./YieldMath.sol";
+import "./SafeCast.sol";
+import { IERC3156FlashBorrower, IERC3156FlashLender } from "./IERC3156.sol";
+import "./YieldFlashBorrowerLike.sol";
+import "./IPool.sol";
+import "./IFYDai.sol";
 
 
 /**

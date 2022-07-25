@@ -1,11 +1,11 @@
 pragma solidity >= 0.5.0;
 
-import "./interface/IERC3156FlashLender.sol";
-import "./interface/IERC3156FlashBorrower.sol";
-import "./interface/IVatDaiFlashLoanReceiver.sol";
-import "dss-interfaces/dss/VatAbstract.sol";
-import "dss-interfaces/dss/DaiJoinAbstract.sol";
-import "dss-interfaces/dss/DaiAbstract.sol";
+import "./IERC3156FlashLender.sol";
+import "./IERC3156FlashBorrower.sol";
+import "./IVatDaiFlashLoanReceiver.sol";
+import "./VatAbstract.sol";
+import "./DaiJoinAbstract.sol";
+import "./DaiAbstract.sol";
 
 interface VatLike {
     function dai(address) external view returns (uint256);

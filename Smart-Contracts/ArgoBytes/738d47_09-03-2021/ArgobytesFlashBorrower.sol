@@ -1,17 +1,13 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // use the flash loan EIP to receive tokens and then call arbitrary actions
 pragma solidity >= 0.5.0;
-pragma experimental ABIEncoderV2;
 
-import {Address} from "@OpenZeppelin/utils/Address.sol";
-import {IERC20} from "@OpenZeppelin/token/ERC20/IERC20.sol";
-
-import {ArgobytesClone} from "./ArgobytesClone.sol";
-
-import {ArgobytesAuth} from "contracts/abstract/ArgobytesAuth.sol";
-import {Address2} from "contracts/library/Address2.sol";
-import {IERC3156FlashBorrower} from "contracts/external/erc3156/IERC3156FlashBorrower.sol";
-import {IERC3156FlashLender} from "contracts/external/erc3156/IERC3156FlashLender.sol";
+import {Address} from "./Address.sol";
+import {IERC20} from "./IERC20.sol";
+import {ArgobytesAuth} from "./ArgobytesAuth.sol";
+import {Address2} from "./Address2.sol";
+import {IERC3156FlashBorrower} from "./IERC3156FlashBorrower.sol";
+import {IERC3156FlashLender} from "./IERC3156FlashLender.sol";
 
 contract ArgobytesFlashBorrower is ArgobytesClone, IERC3156FlashBorrower {
 

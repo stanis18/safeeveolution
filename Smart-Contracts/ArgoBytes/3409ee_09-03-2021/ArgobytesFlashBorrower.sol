@@ -4,16 +4,14 @@
 pragma solidity >= 0.5.0;
 pragma experimental ABIEncoderV2;
 
-import {Address} from "@OpenZeppelin/utils/Address.sol";
-import {IERC20} from "@OpenZeppelin/token/ERC20/IERC20.sol";
-
+import {Address} from "./Address.sol";
+import {IERC20} from "./ERC20/IERC20.sol";
 import {ArgobytesClone} from "./ArgobytesClone.sol";
-
-import {ArgobytesAuthTypes} from "contracts/abstract/ArgobytesAuth.sol";
-import {Address2} from "contracts/library/Address2.sol";
-import {Bytes2} from "contracts/library/Bytes2.sol";
-import {IERC3156FlashBorrower} from "contracts/external/erc3156/IERC3156FlashBorrower.sol";
-import {IERC3156FlashLender} from "contracts/external/erc3156/IERC3156FlashLender.sol";
+import {ArgobytesAuthTypes} from "./ArgobytesAuth.sol";
+import {Address2} from "./Address2.sol";
+import {Bytes2} from "./Bytes2.sol";
+import {IERC3156FlashBorrower} from "./IERC3156FlashBorrower.sol";
+import {IERC3156FlashLender} from "./IERC3156FlashLender.sol";
 
 contract ArgobytesFlashBorrower is ArgobytesClone, IERC3156FlashBorrower {
 

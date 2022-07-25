@@ -4,14 +4,12 @@
 pragma solidity >= 0.5.0;
 pragma experimental ABIEncoderV2;
 
-import {Address} from "@OpenZeppelin/utils/Address.sol";
-
-import {Strings2} from "contracts/library/Strings2.sol";
-import {IArgobytesFactory} from "contracts/ArgobytesFactory.sol";
-import {Address2} from "contracts/library/Address2.sol";
-import {Bytes2} from "contracts/library/Bytes2.sol";
-
-import {ArgobytesAuth} from "contracts/abstract/ArgobytesAuth.sol";
+import {Address} from "./Address.sol";
+import {Strings2} from "./Strings2.sol";
+import {IArgobytesFactory} from "./ArgobytesFactory.sol";
+import {Address2} from "./Address2.sol";
+import {Bytes2} from "./Bytes2.sol";
+import {ArgobytesAuth} from "./ArgobytesAuth.sol";
 
 // TODO: should this be able to receive a flash loan?
 abstract contract ArgobytesClone is ArgobytesAuth {

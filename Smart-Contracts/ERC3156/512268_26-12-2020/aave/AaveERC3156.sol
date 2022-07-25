@@ -5,7 +5,7 @@ pragma experimental ABIEncoderV2;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import { IERC3156FlashBorrower, IERC3156FlashLender } from "../interfaces/IERC3156.sol";
-import "./interfaces/AaveFlashBorrowerLike.sol";
+import "./AaveFlashBorrowerLike.sol";
 import "./interfaces/LendingPoolLike.sol";
 import "./interfaces/LendingPoolAddressesProviderLike.sol";
 import "./libraries/AaveDataTypes.sol";

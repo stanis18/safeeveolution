@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Derived from https://github.com/yieldprotocol/fyDai-flash
-pragma solidity ^0.7.5;
+pragma solidity >= 0.5.0;
 
-import "./interfaces/IFYDai.sol";
-import "./interfaces/YieldFlashBorrowerLike.sol";
-import { IERC3156FlashBorrower, IERC3156FlashLender } from "../interfaces/IERC3156.sol";
+import "./IFYDai.sol";
+import "./YieldFlashBorrowerLike.sol";
+import { IERC3156FlashBorrower, IERC3156FlashLender } from "./IERC3156.sol";
 
 
 /**
