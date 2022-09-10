@@ -88,7 +88,7 @@ contract DssFlash is IERC3156FlashLender {
     // --- ERC 3156 Spec ---
     function maxFlashLoan(
         address token
-    ) external override view returns (uint256) {
+    ) external  view returns (uint256) {
         if (token == address(dai)) {
             return line;
         } else {
@@ -98,7 +98,7 @@ contract DssFlash is IERC3156FlashLender {
     function flashFee(
         address token,
         uint256 amount
-    ) external override view returns (uint256) {
+    ) external  view returns (uint256) {
         require(token == address(dai), "DssFlash/token-unsupported");
 
         return mul(amount, toll) / WAD;
@@ -108,7 +108,7 @@ contract DssFlash is IERC3156FlashLender {
         address token,
         uint256 amount,
         bytes calldata data
-    ) external override lock returns (bool) {
+    ) external  lock returns (bool) {
         require(token == address(dai), "DssFlash/token-unsupported");
         require(amount <= line, "DssFlash/ceiling-exceeded");
 

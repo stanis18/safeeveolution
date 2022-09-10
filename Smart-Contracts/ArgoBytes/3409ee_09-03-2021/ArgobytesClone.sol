@@ -2,7 +2,7 @@
 // base class for clone targets
 // contains a very powerful "execute" function! The owner is in full control!
 pragma solidity >= 0.5.0;
-pragma experimental ABIEncoderV2;
+
 
 import {Address} from "@OpenZeppelin/utils/Address.sol";
 

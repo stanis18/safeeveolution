@@ -51,7 +51,7 @@ contract UniswapERC3156 is IERC3156FlashLender, UniswapV2FlashBorrowerLike {
      * @param token The loan currency.
      * @return The amount of `token` that can be borrowed.
      */
-    function maxFlashAmount(address token) external view override returns (uint256) {
+    function maxFlashAmount(address token) external view  returns (uint256) {
         address pairAddress = getPairAddress(token);
         if (pairAddress != address(0)) {
             uint256 balance = IERC20(token).balanceOf(pairAddress);
@@ -66,7 +66,7 @@ contract UniswapERC3156 is IERC3156FlashLender, UniswapV2FlashBorrowerLike {
      * @param amount The amount of tokens lent.
      * @return The amount of `token` to be charged for the loan, on top of the returned principal.
      */
-    function flashFee(address token, uint256 amount) public view override returns (uint256) {
+    function flashFee(address token, uint256 amount) public view  returns (uint256) {
         require(getPairAddress(token) != address(0), "Unsupported currency");
         return ((amount * 3) / 997) + 1;
     }
@@ -78,7 +78,7 @@ contract UniswapERC3156 is IERC3156FlashLender, UniswapV2FlashBorrowerLike {
      * @param amount The amount of tokens lent.
      * @param userData A data parameter to be passed on to the `receiver` for any custom use.
      */
-    function flashLoan(IERC3156FlashBorrower receiver, address token, uint256 amount, bytes memory userData) external override returns(bool) {
+    function flashLoan(IERC3156FlashBorrower receiver, address token, uint256 amount, bytes memory userData) external  returns(bool) {
         address pairAddress = getPairAddress(token);
         require(pairAddress != address(0), "Unsupported currency");
 
@@ -101,7 +101,7 @@ contract UniswapERC3156 is IERC3156FlashLender, UniswapV2FlashBorrowerLike {
     }
 
     /// @dev Uniswap flash loan callback. It sends the value borrowed to `receiver`, and takes it back plus a `flashFee` after the ERC3156 callback.
-    function uniswapV2Call(address sender, uint amount0, uint amount1, bytes calldata data) external override {
+    function uniswapV2Call(address sender, uint amount0, uint amount1, bytes calldata data) external  {
         // access control
         require(msg.sender == permissionedPairAddress, "only permissioned UniswapV2 pair can call");
         require(sender == address(this), "only this contract may initiate");

@@ -27,17 +27,17 @@ contract WETH10 is IWETH10 {
     bytes32 public immutable PERMIT_TYPEHASH = keccak256("Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)");
 
     /// @dev Records amount of WETH10 token owned by account.
-    mapping (address => uint256) public override balanceOf;
+    mapping (address => uint256) public  balanceOf;
 
     /// @dev Records current ERC2612 nonce for account. This value must be included whenever signature is generated for {permit}.
     /// Every successful call to {permit} increases account's nonce by one. This prevents signature from being used multiple times.
-    mapping (address => uint256) public override nonces;
+    mapping (address => uint256) public  nonces;
 
     /// @dev Records number of WETH10 token that account (second) will be allowed to spend on behalf of another account (first) through {transferFrom}.
-    mapping (address => mapping (address => uint256)) public override allowance;
+    mapping (address => mapping (address => uint256)) public  allowance;
 
     /// @dev Current amount of flash minted WETH.
-    uint256 public override flashMinted;
+    uint256 public  flashMinted;
 
     /// @dev Fallback, `msg.value` of ether sent to contract grants caller account a matching increase in WETH10 token balance.
     /// Emits {Transfer} event to reflect WETH10 token mint of `msg.value` from zero address to caller account.
@@ -46,19 +46,19 @@ contract WETH10 is IWETH10 {
     }
 
     /// @dev Returns the total supply of WETH10 as the Ether held in this contract.
-    function totalSupply() external view override returns(uint256) {
+    function totalSupply() external view  returns(uint256) {
         return address(this).balance + flashMinted;
     }
 
     /// @dev `msg.value` of ether sent to contract grants caller account a matching increase in WETH10 token balance.
     /// Emits {Transfer} event to reflect WETH10 token mint of `msg.value` from zero address to caller account.
-    function deposit() external override payable {
+    function deposit() external  payable {
         _mintTo(msg.sender, msg.value);
     }
 
     /// @dev `msg.value` of ether sent to contract grants `to` account a matching increase in WETH10 token balance.
     /// Emits {Transfer} event to reflect WETH10 token mint of `msg.value` from zero address to `to` account.
-    function depositTo(address to) external override payable {
+    function depositTo(address to) external  payable {
         _mintTo(to, msg.value);
     }
 
@@ -70,19 +70,19 @@ contract WETH10 is IWETH10 {
     /// Requirements:
     ///   - caller account must have at least `value` WETH10 token and transfer to account (`to`) cannot cause overflow.
     /// For more information on transferAndCall format, see https://github.com/ethereum/EIPs/issues/677.
-    function depositToAndCall(address to, bytes calldata data) external override payable returns (bool success) {
+    function depositToAndCall(address to, bytes calldata data) external  payable returns (bool success) {
         _mintTo(to, msg.value);
         ITransferReceiver(to).onTokenTransfer(msg.sender, msg.value, data);
         return true; // TODO: Return the output of previous line
     }
 
     /// @dev Return the amount of WETH10 that can be flash lended.
-    function maxFlashAmount(address token) external view override returns (uint256) {
+    function maxFlashAmount(address token) external view  returns (uint256) {
         return token == address(this) ? type(uint112).max - address(this).balance - flashMinted : 0; // Can't underflow - L108
     }
 
     /// @dev Return the fee (zero) for flash lending an amount of WETH10.
-    function flashFee(address token, uint256) external view override returns (uint256) {
+    function flashFee(address token, uint256) external view  returns (uint256) {
         require(token == address(this), "WETH: flash mint only WETH10");
         return 0;
     }
@@ -92,7 +92,7 @@ contract WETH10 is IWETH10 {
     /// The flash minted WETH10 is not backed by real Ether, but can be withdrawn as such up to the Ether balance of this contract.
     /// Arbitrary data can be passed as a bytes calldata parameter.
     /// Emits two {Transfer} events for minting and burning of the flash minted amount.
-    function flashLoan(address receiver, address token, uint256 value, bytes calldata data) external override {
+    function flashLoan(address receiver, address token, uint256 value, bytes calldata data) external  {
         require(token == address(this), "WETH: flash mint only WETH10");
         flashMinted += value;
         _mintTo(receiver, value);
@@ -108,7 +108,7 @@ contract WETH10 is IWETH10 {
     /// Emits {Transfer} event to reflect WETH10 token burn of `value` WETH10 token to zero address from caller account. 
     /// Requirements:
     ///   - caller account must have at least `value` balance of WETH10 token.
-    function withdraw(uint256 value) external override {
+    function withdraw(uint256 value) external  {
         _burnFrom(msg.sender, value);
         _transferEther(msg.sender, value);
     }
@@ -117,7 +117,7 @@ contract WETH10 is IWETH10 {
     /// Emits {Transfer} event to reflect WETH10 token burn of `value` WETH10 token to zero address from caller account.
     /// Requirements:
     ///   - caller account must have at least `value` balance of WETH10 token.
-    function withdrawTo(address payable to, uint256 value) external override {
+    function withdrawTo(address payable to, uint256 value) external  {
         _burnFrom(msg.sender, value);
         _transferEther(to, value);
     }
@@ -129,7 +129,7 @@ contract WETH10 is IWETH10 {
     /// Requirements:
     ///   - `from` account must have at least `value` balance of WETH10 token.
     ///   - `from` account must have approved caller to spend at least `value` of WETH10 token, unless `from` and caller are the same account.
-    function withdrawFrom(address from, address payable to, uint256 value) external override {
+    function withdrawFrom(address from, address payable to, uint256 value) external  {
         if (from != msg.sender) _decreaseAllowance(from, msg.sender, value);
         _burnFrom(from, value);
         _transferEther(to, value);
@@ -138,7 +138,7 @@ contract WETH10 is IWETH10 {
     /// @dev Sets `value` as allowance of `spender` account over caller account's WETH10 token.
     /// Returns boolean value indicating whether operation succeeded.
     /// Emits {Approval} event.
-    function approve(address spender, uint256 value) external override returns (bool) {
+    function approve(address spender, uint256 value) external  returns (bool) {
         _approve(msg.sender, spender, value);
         return true;
     }
@@ -148,7 +148,7 @@ contract WETH10 is IWETH10 {
     /// Returns boolean value indicating whether operation succeeded.
     /// Emits {Approval} event.
     /// For more information on approveAndCall format, see https://github.com/ethereum/EIPs/issues/677.
-    function approveAndCall(address spender, uint256 value, bytes calldata data) external override returns (bool) {
+    function approveAndCall(address spender, uint256 value, bytes calldata data) external  returns (bool) {
         _approve(msg.sender, spender, value);
         IApprovalReceiver(spender).onTokenApproval(msg.sender, value, data);
         return true; // TODO: Return the output of previous line
@@ -163,7 +163,7 @@ contract WETH10 is IWETH10 {
     ///   - the signer cannot be zero address and must be `owner` account.
     /// For more information on signature format, see https://eips.ethereum.org/EIPS/eip-2612#specification[relevant EIP section].
     /// WETH10 token implementation adapted from https://github.com/albertocuestacanada/ERC20Permit/blob/master/contracts/ERC20Permit.sol.
-    function permit(address owner, address spender, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s) external override {
+    function permit(address owner, address spender, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s) external  {
         require(block.timestamp <= deadline, "WETH: Expired permit");
 
         uint256 chainId;
@@ -202,7 +202,7 @@ contract WETH10 is IWETH10 {
     /// Emits {Transfer} event.
     /// Requirements:
     ///   - caller account must have at least `value` WETH10 token.
-    function transfer(address to, uint256 value) external override returns (bool) {
+    function transfer(address to, uint256 value) external  returns (bool) {
         return _transferFrom(msg.sender, to, value);
     }
 
@@ -215,7 +215,7 @@ contract WETH10 is IWETH10 {
     /// Requirements:
     /// - owner account (`from`) must have at least `value` WETH10 token.
     /// - caller account must have at least `value` allowance from account (`from`).
-    function transferFrom(address from, address to, uint256 value) external override returns (bool) {
+    function transferFrom(address from, address to, uint256 value) external  returns (bool) {
         if (from != msg.sender) _decreaseAllowance(from, msg.sender, value);
         return _transferFrom(from, to, value);
     }
@@ -226,7 +226,7 @@ contract WETH10 is IWETH10 {
     /// Requirements:
     ///   - caller account must have at least `value` WETH10 token.
     /// For more information on transferAndCall format, see https://github.com/ethereum/EIPs/issues/677.
-    function transferAndCall(address to, uint value, bytes calldata data) external override returns (bool) {
+    function transferAndCall(address to, uint value, bytes calldata data) external  returns (bool) {
         _transferFrom(msg.sender, to, value);
         ITransferReceiver(to).onTokenTransfer(msg.sender, value, data);
         return true; // TODO: Return the output of previous line

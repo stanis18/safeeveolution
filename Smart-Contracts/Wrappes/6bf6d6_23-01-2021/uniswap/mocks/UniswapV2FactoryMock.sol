@@ -9,7 +9,7 @@ import "./UniswapV2PairMock.sol";
 
 contract UniswapV2FactoryMock is UniswapV2FactoryLike {
 
-    mapping(address => mapping(address => address)) public override getPair;
+    mapping(address => mapping(address => address)) public  getPair;
 
     function createPair(address tokenA, address tokenB) external returns (address pair) {
         require(tokenA != tokenB, "UniswapV2: IDENTICAL_ADDRESSES");

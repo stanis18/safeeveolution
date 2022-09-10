@@ -31,7 +31,7 @@ contract YieldDaiERC3156 is IERC3156FlashLender, YieldFlashBorrowerLike {
     }
 
     /// @dev Fee charged on top of a Dai flash loan.
-    function flashFee(address dai, uint256 daiBorrowed) public view override returns (uint256) {
+    function flashFee(address dai, uint256 daiBorrowed) public view  returns (uint256) {
         require(dai == address(pool.dai()), "Unsupported currency");
         uint128 fyDaiAmount = pool.buyDaiPreview(daiBorrowed.toUint128());
 
@@ -49,12 +49,12 @@ contract YieldDaiERC3156 is IERC3156FlashLender, YieldFlashBorrowerLike {
     }
 
     /// @dev Maximum Dai flash loan available.
-    function flashSupply(address dai) public view override returns (uint256) {
+    function flashSupply(address dai) public view  returns (uint256) {
         return dai == address(pool.dai()) ? pool.getDaiReserves() : 0;
     }
 
     /// @dev Borrow `daiAmount` as a flash loan.
-    function flashLoan(address receiver, address dai, uint256 daiAmount, bytes memory userData) public override {
+    function flashLoan(address receiver, address dai, uint256 daiAmount, bytes memory userData) public  {
         require(dai == address(pool.dai()), "Unsupported currency");
         bytes memory data = abi.encode(msg.sender, receiver, daiAmount, userData);
         uint256 fyDaiAmount = pool.buyDaiPreview(daiAmount.toUint128());
@@ -62,7 +62,7 @@ contract YieldDaiERC3156 is IERC3156FlashLender, YieldFlashBorrowerLike {
     }
 
     /// @dev FYDai `flashMint` callback.
-    function executeOnFlashMint(uint256 fyDaiAmount, bytes memory data) public override {
+    function executeOnFlashMint(uint256 fyDaiAmount, bytes memory data) public  {
         require(msg.sender == address(pool.fyDai()), "Callbacks only allowed from fyDai contract");
 
         (address origin, address receiver, uint256 daiAmount, bytes memory userData) = abi.decode(data, (address, address, uint256, bytes));

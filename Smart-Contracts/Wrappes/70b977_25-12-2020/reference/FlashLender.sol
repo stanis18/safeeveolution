@@ -30,7 +30,7 @@ contract FlashLender is IERC3156FlashLender {
      * @param value The amount of tokens lent.
      * @param data A data parameter to be passed on to the `receiver` for any custom use.
      */
-    function flashLoan(address receiver, address token, uint256 value, bytes calldata data) external override {
+    function flashLoan(address receiver, address token, uint256 value, bytes calldata data) external  {
         require(
             token == currency1 || token == currency2,
             "FlashLender: unsupported loan currency"
@@ -49,7 +49,7 @@ contract FlashLender is IERC3156FlashLender {
      * @param value The amount of tokens lent.
      * @return The amount of `token` to be charged for the loan, on top of the returned principal.
      */
-    function flashFee(address token, uint256 value) external view override returns (uint256) {
+    function flashFee(address token, uint256 value) external view  returns (uint256) {
         require(
             token == currency1 || token == currency2,
             "FlashLender: unsupported loan currency"
@@ -72,7 +72,7 @@ contract FlashLender is IERC3156FlashLender {
      * @param token The loan currency.
      * @return The amount of `token` that can be borrowed.
      */
-    function flashSupply(address token) external view override returns (uint256) {
+    function flashSupply(address token) external view  returns (uint256) {
         return IERC20(token).balanceOf(address(this));
     }
 }

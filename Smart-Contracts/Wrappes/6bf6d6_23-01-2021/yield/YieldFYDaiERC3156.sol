@@ -28,7 +28,7 @@ contract YieldFYDaiERC3156 is IERC3156FlashLender, YieldFlashBorrowerLike {
      * @param token The loan currency. It must be a FYDai contract.
      * @return The amount of `token` that can be borrowed.
      */
-    function maxFlashAmount(address token) public view override returns (uint256) {
+    function maxFlashAmount(address token) public view  returns (uint256) {
         return fyDaisSupported[token] ? type(uint112).max - IFYDai(token).totalSupply() : 0;
     }
 
@@ -38,7 +38,7 @@ contract YieldFYDaiERC3156 is IERC3156FlashLender, YieldFlashBorrowerLike {
      * @param amount The amount of tokens lent.
      * @return The amount of `token` to be charged for the loan, on top of the returned principal.
      */
-    function flashFee(address token, uint256 amount) public view override returns (uint256) {
+    function flashFee(address token, uint256 amount) public view  returns (uint256) {
         require(fyDaisSupported[token], "Unsupported currency");
         return 0;
     }
@@ -50,14 +50,14 @@ contract YieldFYDaiERC3156 is IERC3156FlashLender, YieldFlashBorrowerLike {
      * @param amount The amount of tokens lent.
      * @param userData A data parameter to be passed on to the `receiver` for any custom use.
      */
-    function flashLoan(IERC3156FlashBorrower receiver, address token, uint256 amount, bytes memory userData) public override returns(bool) {
+    function flashLoan(IERC3156FlashBorrower receiver, address token, uint256 amount, bytes memory userData) public  returns(bool) {
         bytes memory data = abi.encode(msg.sender, receiver, userData);
         IFYDai(token).flashMint(amount, data);
         return true;
     }
 
     /// @dev FYDai flash loan callback. It sends the value borrowed to `receiver`, and takes the value back after the callback.
-    function executeOnFlashMint(uint256 amount, bytes memory data) public override {
+    function executeOnFlashMint(uint256 amount, bytes memory data) public  {
         (address origin, IERC3156FlashBorrower receiver, bytes memory userData) = 
             abi.decode(data, (address, IERC3156FlashBorrower, bytes));
         IFYDai(msg.sender).transfer(address(receiver), amount);

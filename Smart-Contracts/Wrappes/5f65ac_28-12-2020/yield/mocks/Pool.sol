@@ -22,8 +22,8 @@ contract Pool is IPool, ERC20 {
     int128 constant public g2 = int128(uint256((1000 << 64)) / 950); // To be used when selling fyDai to the pool. All constants are `ufixed`, to divide them they must be converted to uint256
     uint128 immutable public maturity;
 
-    IERC20 public override dai;
-    IFYDai public override fyDai;
+    IERC20 public  dai;
+    IFYDai public  fyDai;
 
     constructor(address dai_, address fyDai_, string memory name_, string memory symbol_)
         public
@@ -107,7 +107,7 @@ contract Pool is IPool, ERC20 {
     /// @param daiOffered Amount of `dai` being invested, an appropriate amount of `fyDai` to be invested alongside will be calculated and taken by this function from the caller.
     /// @return The amount of liquidity tokens minted.
     function mint(address from, address to, uint256 daiOffered)
-        external override
+        external 
         returns (uint256)
     {
         uint256 supply = totalSupply();
@@ -137,7 +137,7 @@ contract Pool is IPool, ERC20 {
     /// @param tokensBurned Amount of liquidity tokens being burned.
     /// @return The amount of reserve tokens returned (daiTokens, fyDaiTokens).
     function burn(address from, address to, uint256 tokensBurned)
-        external override
+        external 
         returns (uint256, uint256)
     {
         uint256 supply = totalSupply();
@@ -166,7 +166,7 @@ contract Pool is IPool, ERC20 {
     /// @param daiIn Amount of dai being sold that will be taken from the user's wallet
     /// @return Amount of fyDai that will be deposited on `to` wallet
     function sellDai(address from, address to, uint128 daiIn)
-        external override
+        external 
         returns(uint128)
     {
         uint128 fyDaiOut = sellDaiPreview(daiIn);
@@ -182,7 +182,7 @@ contract Pool is IPool, ERC20 {
     /// @param daiIn Amount of dai hypothetically sold.
     /// @return Amount of fyDai hypothetically bought.
     function sellDaiPreview(uint128 daiIn)
-        public view override
+        public view 
         beforeMaturity
         returns(uint128)
     {
@@ -213,7 +213,7 @@ contract Pool is IPool, ERC20 {
     /// @param daiOut Amount of dai being bought that will be deposited in `to` wallet
     /// @return Amount of fyDai that will be taken from `from` wallet
     function buyDai(address from, address to, uint128 daiOut)
-        external override
+        external 
         returns(uint128)
     {
         uint128 fyDaiIn = buyDaiPreview(daiOut);
@@ -229,7 +229,7 @@ contract Pool is IPool, ERC20 {
     /// @param daiOut Amount of dai hypothetically desired.
     /// @return Amount of fyDai hypothetically required.
     function buyDaiPreview(uint128 daiOut)
-        public view override
+        public view 
         beforeMaturity
         returns(uint128)
     {
@@ -250,7 +250,7 @@ contract Pool is IPool, ERC20 {
     /// @param fyDaiIn Amount of fyDai being sold that will be taken from the user's wallet
     /// @return Amount of dai that will be deposited on `to` wallet
     function sellFYDai(address from, address to, uint128 fyDaiIn)
-        external override
+        external 
         returns(uint128)
     {
         uint128 daiOut = sellFYDaiPreview(fyDaiIn);
@@ -266,7 +266,7 @@ contract Pool is IPool, ERC20 {
     /// @param fyDaiIn Amount of fyDai hypothetically sold.
     /// @return Amount of Dai hypothetically bought.
     function sellFYDaiPreview(uint128 fyDaiIn)
-        public view override
+        public view 
         beforeMaturity
         returns(uint128)
     {
@@ -287,7 +287,7 @@ contract Pool is IPool, ERC20 {
     /// @param fyDaiOut Amount of fyDai being bought that will be deposited in `to` wallet
     /// @return Amount of dai that will be taken from `from` wallet
     function buyFYDai(address from, address to, uint128 fyDaiOut)
-        external override
+        external 
         returns(uint128)
     {
         uint128 daiIn = buyFYDaiPreview(fyDaiOut);
@@ -304,7 +304,7 @@ contract Pool is IPool, ERC20 {
     /// @param fyDaiOut Amount of fyDai hypothetically desired.
     /// @return Amount of Dai hypothetically required.
     function buyFYDaiPreview(uint128 fyDaiOut)
-        public view override
+        public view 
         beforeMaturity
         returns(uint128)
     {
@@ -330,7 +330,7 @@ contract Pool is IPool, ERC20 {
 
     /// @dev Returns the "virtual" fyDai reserves
     function getFYDaiReserves()
-        public view override
+        public view 
         returns(uint128)
     {
         return toUint128(fyDai.balanceOf(address(this)).add(totalSupply()));
@@ -338,7 +338,7 @@ contract Pool is IPool, ERC20 {
 
     /// @dev Returns the Dai reserves
     function getDaiReserves()
-        public view override
+        public view 
         returns(uint128)
     {
         return toUint128(dai.balanceOf(address(this)));

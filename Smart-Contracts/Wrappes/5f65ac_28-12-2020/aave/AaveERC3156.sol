@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Derived from https://docs.aave.com/developers/guides/flash-loans
 pragma solidity ^0.7.5;
-pragma experimental ABIEncoderV2;
+
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
@@ -34,7 +34,7 @@ contract AaveERC3156 is IERC3156FlashLender, AaveFlashBorrowerLike {
      * @param value The amount of tokens lent.
      * @param userData A data parameter to be passed on to the `receiver` for any custom use.
      */
-    function flashLoan(address receiver, address token, uint256 value, bytes calldata userData) external override {
+    function flashLoan(address receiver, address token, uint256 value, bytes calldata userData) external  {
         address receiverAddress = address(this);
 
         address[] memory tokens = new address[](1);
@@ -70,7 +70,7 @@ contract AaveERC3156 is IERC3156FlashLender, AaveFlashBorrowerLike {
         address sender,
         bytes calldata data
     )
-        external override returns (bool)
+        external  returns (bool)
     {
         require(msg.sender == address(lendingPool), "Callbacks only allowed from Lending Pool");
         require(sender == address(this), "Callbacks only initiated from this contract");
@@ -93,7 +93,7 @@ contract AaveERC3156 is IERC3156FlashLender, AaveFlashBorrowerLike {
      * @param value The amount of tokens lent.
      * @return The amount of `token` to be charged for the loan, on top of the returned principal.
      */
-    function flashFee(address token, uint256 value) external view override returns (uint256) {
+    function flashFee(address token, uint256 value) external view  returns (uint256) {
         AaveDataTypes.ReserveData memory reserveData = lendingPool.getReserveData(token);
         require(reserveData.aTokenAddress != address(0), "Unsupported currency");
         return value.mul(9).div(10000); // lendingPool.FLASHLOAN_PREMIUM_TOTAL()
@@ -104,7 +104,7 @@ contract AaveERC3156 is IERC3156FlashLender, AaveFlashBorrowerLike {
      * @param token The loan currency.
      * @return The amount of `token` that can be borrowed.
      */
-    function flashSupply(address token) external view override returns (uint256) {
+    function flashSupply(address token) external view  returns (uint256) {
         AaveDataTypes.ReserveData memory reserveData = lendingPool.getReserveData(token);
         return reserveData.aTokenAddress != address(0) ? IERC20(token).balanceOf(reserveData.aTokenAddress) : 0;
     }

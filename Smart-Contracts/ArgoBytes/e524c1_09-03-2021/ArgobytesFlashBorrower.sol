@@ -1,19 +1,18 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // use the flash loan EIP to receive tokens and then call arbitrary actions
 pragma solidity >= 0.5.0;
-pragma experimental ABIEncoderV2;
 
-import {Address} from "@OpenZeppelin/utils/Address.sol";
-import {IERC20} from "@OpenZeppelin/token/ERC20/IERC20.sol";
 
-import {ArgobytesClone} from "./ArgobytesClone.sol";
+import {IERC20} from "./IERC20.sol";
 
-import {ArgobytesAuth} from "contracts/abstract/ArgobytesAuth.sol";
-import {Address2} from "contracts/library/Address2.sol";
-import {IERC3156FlashBorrower} from "contracts/external/erc3156/IERC3156FlashBorrower.sol";
-import {IERC3156FlashLender} from "contracts/external/erc3156/IERC3156FlashLender.sol";
+// import {ArgobytesClone} from "./ArgobytesClone.sol";
 
-contract ArgobytesFlashBorrower is ArgobytesClone, IERC3156FlashBorrower {
+import {ArgobytesAuth} from "./ArgobytesAuth.sol";
+import {Address2} from "./Address2.sol";
+import {IERC3156FlashBorrower} from "./IERC3156FlashBorrower.sol";
+import {IERC3156FlashLender} from "./IERC3156FlashLender.sol";
+
+contract ArgobytesFlashBorrower is IERC3156FlashBorrower {
 
     // because we make heavy use of delegatecall, we want to make sure our storage is durable
     bytes32 constant FLASH_BORROWER_POSITION = keccak256("argobytes.storage.FlashBorrower.lender") - 1;
@@ -79,8 +78,8 @@ contract ArgobytesFlashBorrower is ArgobytesClone, IERC3156FlashBorrower {
         uint256 amount,
         uint256 fee,
         bytes calldata data
-    ) external override returns(bytes32) {
-        IERC3156FlashBorrower storage s = lenderStorage();
+    ) external returns(bytes32) {
+        IERC3156FlashBorrower storage s = flashBorrowerStorage();
 
         // auth
         // pending_loan is like the opposite of a re-entrancy guard

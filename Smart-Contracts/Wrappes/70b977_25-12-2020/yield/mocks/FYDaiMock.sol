@@ -39,7 +39,7 @@ contract FYDaiMock is ERC20  {
     /// @dev Creates `fyDaiAmount` tokens and assigns them to `to`, increasing the total supply, up to a limit of 2**112.
     /// @param to Wallet to mint the fyDai in.
     /// @param fyDaiAmount Amount of fyDai to mint.
-    function _mint(address to, uint256 fyDaiAmount) internal override {
+    function _mint(address to, uint256 fyDaiAmount) internal  {
         super._mint(to, fyDaiAmount);
         require(totalSupply() <= 5192296858534827628530496329220096, "FYDai: Total supply limit exceeded"); // 2**112
     }

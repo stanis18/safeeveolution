@@ -42,7 +42,7 @@ contract YieldDaiERC3156 is IERC3156FlashLender, YieldFlashBorrowerLike {
      * @param token The loan currency. It must be Dai.
      * @return The amount of `token` that can be borrowed.
      */
-    function maxFlashAmount(address token) public view override returns (uint256) {
+    function maxFlashAmount(address token) public view  returns (uint256) {
         return token == address(pool.dai()) ? pool.getDaiReserves() : 0;
     }
 
@@ -52,7 +52,7 @@ contract YieldDaiERC3156 is IERC3156FlashLender, YieldFlashBorrowerLike {
      * @param amount The amount of tokens lent.
      * @return The amount of `token` to be charged for the loan, on top of the returned principal.
      */
-    function flashFee(address token, uint256 amount) public view override returns (uint256) {
+    function flashFee(address token, uint256 amount) public view  returns (uint256) {
         require(token == address(pool.dai()), "Unsupported currency");
         uint128 fyDaiAmount = pool.buyDaiPreview(amount.toUint128());
 
@@ -76,7 +76,7 @@ contract YieldDaiERC3156 is IERC3156FlashLender, YieldFlashBorrowerLike {
      * @param amount The amount of tokens lent.
      * @param userData A data parameter to be passed on to the `receiver` for any custom use.
      */
-    function flashLoan(IERC3156FlashBorrower receiver, address token, uint256 amount, bytes memory userData) public override returns(bool) {
+    function flashLoan(IERC3156FlashBorrower receiver, address token, uint256 amount, bytes memory userData) public  returns(bool) {
         require(token == address(pool.dai()), "Unsupported currency");
         bytes memory data = abi.encode(msg.sender, receiver, amount, userData);
         uint256 fyDaiAmount = pool.buyDaiPreview(amount.toUint128());
@@ -85,7 +85,7 @@ contract YieldDaiERC3156 is IERC3156FlashLender, YieldFlashBorrowerLike {
     }
 
     /// @dev FYDai flash loan callback. It sends the value borrowed to `receiver`, and expects that the value plus the fee will be transferred back.
-    function executeOnFlashMint(uint256 fyDaiAmount, bytes memory data) public override {
+    function executeOnFlashMint(uint256 fyDaiAmount, bytes memory data) public  {
         require(msg.sender == address(pool.fyDai()), "Callbacks only allowed from fyDai contract");
 
         (address origin, IERC3156FlashBorrower receiver, uint256 amount, bytes memory userData) = 

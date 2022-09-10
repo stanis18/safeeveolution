@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: You can't license an interface
 pragma solidity >= 0.5.0;
-pragma experimental ABIEncoderV2;
+
 
 import {IERC3156FlashBorrower} from "./IERC3156FlashBorrower.sol";
 

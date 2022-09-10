@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Derived from https://github.com/kollateral/kollateral
 pragma solidity ^0.7.5;
-pragma experimental ABIEncoderV2;
+
 
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
@@ -19,7 +19,7 @@ contract SoloMarginMock is SoloMarginLike {
         }
     }
 
-    function operate(DYDXDataTypes.AccountInfo[] memory accounts, DYDXDataTypes.ActionArgs[] memory actions) public override {
+    function operate(DYDXDataTypes.AccountInfo[] memory accounts, DYDXDataTypes.ActionArgs[] memory actions) public  {
         /* data */
         require(accounts.length == 1, "SoloMarginMock: incorrect accounts length");
         require(actions.length == 3, "SoloMarginMock: incorrect actions length");
@@ -64,7 +64,7 @@ contract SoloMarginMock is SoloMarginLike {
         require(balanceAfter == balanceBefore.add(repaymentFee(withdraw.primaryMarketId)), "SoloMarginMock: Incorrect ending balance");
     }
 
-    function getMarketTokenAddress(uint256 marketId) public view override returns (address) {
+    function getMarketTokenAddress(uint256 marketId) public view  returns (address) {
         return _markets[marketId];
     }
 

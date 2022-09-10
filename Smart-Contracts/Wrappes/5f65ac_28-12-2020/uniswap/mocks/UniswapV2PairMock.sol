@@ -13,8 +13,8 @@ contract UniswapV2PairMock is UniswapV2PairLike {
     using SafeMath  for uint;
 
     address public factory;
-    address public override token0;
-    address public override token1;
+    address public  token0;
+    address public  token1;
 
     uint112 private reserve0;           // uses single storage slot, accessible via getReserves
     uint112 private reserve1;           // uses single storage slot, accessible via getReserves
@@ -38,7 +38,7 @@ contract UniswapV2PairMock is UniswapV2PairLike {
     }
 
     // called once by the factory at time of deployment
-    function initialize(address _token0, address _token1) external override {
+    function initialize(address _token0, address _token1) external  {
         require(msg.sender == factory, "UniswapV2: FORBIDDEN"); // sufficient check
         token0 = _token0;
         token1 = _token1;
@@ -52,7 +52,7 @@ contract UniswapV2PairMock is UniswapV2PairLike {
         _update(balance0, balance1);
     }
 
-    function swap(uint amount0Out, uint amount1Out, address to, bytes calldata data) external override {
+    function swap(uint amount0Out, uint amount1Out, address to, bytes calldata data) external  {
         require(amount0Out > 0 || amount1Out > 0, "UniswapV2: INSUFFICIENT_OUTPUT_AMOUNT");
         (uint112 _reserve0, uint112 _reserve1) = getReserves(); // gas savings
         require(amount0Out < _reserve0 && amount1Out < _reserve1, "UniswapV2: INSUFFICIENT_LIQUIDITY");

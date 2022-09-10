@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Derived from https://github.com/kollateral/kollateral/blob/master/protocol/contracts/liquidity/kollateral/KollateralLiquidityProxy.sol
 pragma solidity ^0.7.5;
-pragma experimental ABIEncoderV2;
+
 
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
@@ -45,17 +45,17 @@ contract DYDXERC3156 is IERC3156FlashLender, DYDXFlashBorrowerLike {
         }
     }
 
-    function flashSupply(address token) external view override returns (uint256) {
+    function flashSupply(address token) external view  returns (uint256) {
         return tokensRegistered[token] == true ? IERC20(token).balanceOf(address(soloMargin)) : 0;
     }
 
-    function flashFee(address token, uint256) public view override returns (uint256) {
+    function flashFee(address token, uint256) public view  returns (uint256) {
         require(tokensRegistered[token], "Unsupported currency");
         // Add 1 wei for markets 0-1 and 2 wei for markets 2-3
         return marketIdFromTokenAddress(token) < 2 ? 1 : 2;
     }
 
-    function flashLoan(address receiver, address token, uint256 amount, bytes memory userData) external override {
+    function flashLoan(address receiver, address token, uint256 amount, bytes memory userData) external  {
         DYDXDataTypes.ActionArgs[] memory operations = new DYDXDataTypes.ActionArgs[](3);
         operations[0] = getWithdrawAction(token, amount);
         operations[1] = getCallAction(abi.encode(msg.sender, receiver, token, amount, userData));
@@ -71,7 +71,7 @@ contract DYDXERC3156 is IERC3156FlashLender, DYDXFlashBorrowerLike {
         DYDXDataTypes.AccountInfo memory,
         bytes memory data
     )
-    public override
+    public 
     {
         require(msg.sender == address(soloMargin), "Callback only from SoloMargin");
         require(sender == address(this), "FlashLoan only from this contract");

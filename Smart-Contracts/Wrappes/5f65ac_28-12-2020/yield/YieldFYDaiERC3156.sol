@@ -21,24 +21,24 @@ contract YieldFYDaiERC3156 is IERC3156FlashLender, YieldFlashBorrowerLike {
     }
 
     /// @dev Fee charged on top of a fyDai flash loan.
-    function flashFee(address token, uint256) public view override returns (uint256) {
+    function flashFee(address token, uint256) public view  returns (uint256) {
         require(tokensRegistered[token], "Unsupported currency");
         return 0;
     }
 
     /// @dev Maximum fyDai flash loan available.
-    function flashSupply(address token) public view override returns (uint256) {
+    function flashSupply(address token) public view  returns (uint256) {
         return tokensRegistered[token] ? type(uint112).max - IFYDai(token).totalSupply() : 0;
     }
 
     /// @dev ERC-3156 entry point to send `fyDaiAmount` fyDai to `receiver` as a flash loan.
-    function flashLoan(address receiver, address fyDai, uint256 fyDaiAmount, bytes memory userData) public override {
+    function flashLoan(address receiver, address fyDai, uint256 fyDaiAmount, bytes memory userData) public  {
         bytes memory data = abi.encode(msg.sender, receiver, userData);
         IFYDai(fyDai).flashMint(fyDaiAmount, data);
     }
 
     /// @dev FYDai `flashMint` callback, which bridges to the ERC-3156 `onFlashLoan` callback.
-    function executeOnFlashMint(uint256 fyDaiAmount, bytes memory data) public override {
+    function executeOnFlashMint(uint256 fyDaiAmount, bytes memory data) public  {
         (address origin, address receiver, bytes memory userData) = abi.decode(data, (address, address, bytes));
         IFYDai(msg.sender).transfer(receiver, fyDaiAmount);
         IERC3156FlashBorrower(receiver).onFlashLoan(origin, msg.sender, fyDaiAmount, 0, userData); // msg.sender is the lending fyDai contract

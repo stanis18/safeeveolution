@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Derived from https://github.com/kollateral/kollateral/blob/master/protocol/contracts/liquidity/kollateral/KollateralLiquidityProxy.sol
 pragma solidity ^0.7.5;
-pragma experimental ABIEncoderV2;
+
 
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
@@ -46,7 +46,7 @@ contract DYDXERC3156 is IERC3156FlashLender, DYDXFlashBorrowerLike {
      * @param token The loan currency.
      * @return The amount of `token` that can be borrowed.
      */
-    function maxFlashAmount(address token) external view override returns (uint256) {
+    function maxFlashAmount(address token) external view  returns (uint256) {
         return tokensRegistered[token] == true ? IERC20(token).balanceOf(address(soloMargin)) : 0;
     }
 
@@ -56,7 +56,7 @@ contract DYDXERC3156 is IERC3156FlashLender, DYDXFlashBorrowerLike {
      * @param amount The amount of tokens lent.
      * @return The amount of `token` to be charged for the loan, on top of the returned principal.
      */
-    function flashFee(address token, uint256 amount) public view override returns (uint256) {
+    function flashFee(address token, uint256 amount) public view  returns (uint256) {
         require(tokensRegistered[token], "Unsupported currency");
         return 2;
     }
@@ -68,7 +68,7 @@ contract DYDXERC3156 is IERC3156FlashLender, DYDXFlashBorrowerLike {
      * @param amount The amount of tokens lent.
      * @param userData A data parameter to be passed on to the `receiver` for any custom use.
      */
-    function flashLoan(IERC3156FlashBorrower receiver, address token, uint256 amount, bytes memory userData) external override returns(bool) {
+    function flashLoan(IERC3156FlashBorrower receiver, address token, uint256 amount, bytes memory userData) external  returns(bool) {
         DYDXDataTypes.ActionArgs[] memory operations = new DYDXDataTypes.ActionArgs[](3);
         operations[0] = getWithdrawAction(token, amount);
         operations[1] = getCallAction(abi.encode(msg.sender, receiver, token, amount, userData));
@@ -86,7 +86,7 @@ contract DYDXERC3156 is IERC3156FlashLender, DYDXFlashBorrowerLike {
         DYDXDataTypes.AccountInfo memory,
         bytes memory data
     )
-    public override
+    public 
     {
         require(msg.sender == address(soloMargin), "Callback only from SoloMargin");
         require(sender == address(this), "FlashLoan only from this contract");

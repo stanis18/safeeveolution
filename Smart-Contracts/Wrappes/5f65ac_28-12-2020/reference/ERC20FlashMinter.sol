@@ -26,7 +26,7 @@ contract ERC20FlashMinter is ERC20, IERC3156FlashLender {
      * @param value The amount of tokens lent.
      * @param data A data parameter to be passed on to the `receiver` for any custom use.
      */
-    function flashLoan(address receiver, address token, uint256 value, bytes calldata data) external override {
+    function flashLoan(address receiver, address token, uint256 value, bytes calldata data) external  {
         require(token == address(this), "FlashMinter: unsupported loan currency");
         uint256 _fee = _flashFee(token, value);
         _mint(receiver, value);
@@ -40,7 +40,7 @@ contract ERC20FlashMinter is ERC20, IERC3156FlashLender {
      * @param value The amount of tokens lent.
      * @return The amount of `token` to be charged for the loan, on top of the returned principal.
      */
-    function flashFee(address token, uint256 value) external view override returns (uint256) {
+    function flashFee(address token, uint256 value) external view  returns (uint256) {
         require(token == address(this), "FlashMinter: unsupported loan currency");
         return _flashFee(token, value);
     }
@@ -60,7 +60,7 @@ contract ERC20FlashMinter is ERC20, IERC3156FlashLender {
      * @param token The loan currency.
      * @return The amount of `token` that can be borrowed.
      */
-    function flashSupply(address token) external view override returns (uint256) {
+    function flashSupply(address token) external view  returns (uint256) {
         return type(uint256).max;
     }
 }

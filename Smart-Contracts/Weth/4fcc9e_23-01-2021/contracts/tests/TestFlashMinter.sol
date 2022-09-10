@@ -15,7 +15,7 @@ contract TestFlashLender is IERC3156FlashBorrower {
 
     receive() external payable {}
 
-    function onFlashLoan(address sender, address token, uint256 value, uint256, bytes calldata data) external override returns(bytes32) {
+    function onFlashLoan(address sender, address token, uint256 value, uint256, bytes calldata data) external  returns(bytes32) {
         address lender = msg.sender;
         (Action action) = abi.decode(data, (Action)); // Use this to unpack arbitrary data
         flashSender = sender;

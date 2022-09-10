@@ -17,7 +17,7 @@
 */
 
 pragma solidity ^0.7.5;
-pragma experimental ABIEncoderV2;
+
 
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -70,7 +70,7 @@ contract DYDXERC3156 is Ownable, IERC3156FlashLender, DYDXFlashBorrowerLike {
         IERC20(token).approve(_soloMarginAddress, 0);
     }
 
-    function flashSupply(address token) external view override returns (uint256) {
+    function flashSupply(address token) external view  returns (uint256) {
         if (isRegistered(token)) {
             return IERC20(token).balanceOf(_soloMarginAddress);
         }
@@ -78,12 +78,12 @@ contract DYDXERC3156 is Ownable, IERC3156FlashLender, DYDXFlashBorrowerLike {
         return 0;
     }
 
-    function flashFee(address token, uint256 amount) public view override returns (uint256) {
+    function flashFee(address token, uint256 amount) public view  returns (uint256) {
         // Add 1 wei for markets 0-1 and 2 wei for markets 2-3
         return marketIdFromTokenAddress(token) < 2 ? 1 : 2;
     }
 
-    function flashLoan(address receiver, address token, uint256 amount, bytes memory data) external override {
+    function flashLoan(address receiver, address token, uint256 amount, bytes memory data) external  {
         SoloMarginLike solo = SoloMarginLike(_soloMarginAddress);
         DYDXDataTypes.ActionArgs[] memory operations = new DYDXDataTypes.ActionArgs[](3);
         operations[0] = getWithdrawAction(token, amount);
@@ -100,7 +100,7 @@ contract DYDXERC3156 is Ownable, IERC3156FlashLender, DYDXFlashBorrowerLike {
         DYDXDataTypes.AccountInfo memory accountInfo,
         bytes memory wrappedData
     )
-    public override
+    public 
     {
         require(msg.sender == _soloMarginAddress, "SoloLiquidityProxy: callback only from SoloMargin");
         require(innerSender == address(this), "SoloLiquidityProxy: flashLoan only from this contract");

@@ -17,7 +17,7 @@
 */
 
 pragma solidity ^0.7.5;
-pragma experimental ABIEncoderV2;
+
 
 import "../libraries/DYDXDataTypes.sol";
 
