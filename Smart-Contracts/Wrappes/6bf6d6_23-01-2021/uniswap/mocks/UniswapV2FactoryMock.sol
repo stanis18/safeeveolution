@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Derived from https://github.com/Uniswap/uniswap-v2-core/blob/master/contracts/UniswapV2Factory.sol
 
-pragma solidity ^0.7.5;
+pragma solidity >= 0.5.0;
 
 import "../interfaces/UniswapV2FactoryLike.sol";
 import "../interfaces/UniswapV2PairLike.sol";

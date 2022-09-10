@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Derived from https://github.com/Uniswap/uniswap-v2-core/blob/master/contracts/UniswapV2Pair.sol
 
-pragma solidity ^0.7.5;
+pragma solidity >= 0.5.0;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";

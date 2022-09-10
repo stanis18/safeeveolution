@@ -64,7 +64,7 @@ contract DssFlash is IERC3156FlashLender {
         DaiAbstract(DaiJoinAbstract(daiJoin_).dai()).approve(daiJoin_, uint256(-1));
     }
 
-    // --- Math ---
+    // // --- Math ---
     uint256 constant WAD = 10 ** 18;
     uint256 constant RAY = 10 ** 27;
     uint256 constant RAD = 10 ** 45;
@@ -73,16 +73,6 @@ contract DssFlash is IERC3156FlashLender {
     }
     function mul(uint256 x, uint256 y) internal pure returns (uint256 z) {
         require(y == 0 || (z = x * y) / y == x);
-    }
-
-    // --- Administration ---
-    function file(bytes32 what, uint256 data) external auth {
-        if (what == "line") {
-            // Add an upper limit of 10^27 DAI to avoid breaking technical assumptions of DAI << 2^256 - 1
-            require((line = data) <= RAD, "DssFlash/ceiling-too-high");
-        } else if (what == "toll") toll = data;
-        else revert("DssFlash/file-unrecognized-param");
-        emit File(what, data);
     }
 
     // --- ERC 3156 Spec ---

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Derived from https://docs.aave.com/developers/guides/flash-loans
-pragma solidity ^0.7.5;
+pragma solidity >= 0.5.0;
 
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
