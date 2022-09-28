@@ -2,13 +2,13 @@
 pragma solidity >= 0.5.0;
 
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/math/SafeMath.sol";
-import { IERC3156FlashBorrower, IERC3156FlashLender } from "../interfaces/IERC3156.sol";
-import "./interfaces/AaveFlashBorrowerLike.sol";
-import "./interfaces/LendingPoolLike.sol";
-import "./interfaces/LendingPoolAddressesProviderLike.sol";
-import "./libraries/AaveDataTypes.sol";
+import "./IERC20.sol";
+import "./SafeMath.sol";
+import { IERC3156FlashBorrower, IERC3156FlashLender } from "./IERC3156.sol";
+import "./AaveFlashBorrowerLike.sol";
+import "./LendingPoolLike.sol";
+import "./LendingPoolAddressesProviderLike.sol";
+import "./AaveDataTypes.sol";
 
 
 /**
@@ -22,7 +22,7 @@ contract AaveERC3156 is IERC3156FlashLender, AaveFlashBorrowerLike {
 
     mapping(address => address) public underlyingToAsset;
 
-    constructor(LendingPoolAddressesProviderLike provider) {
+    constructor(LendingPoolAddressesProviderLike provider) public {
         lendingPool = LendingPoolLike(provider.getLendingPool());
     }
 

@@ -2,7 +2,7 @@
 pragma solidity >= 0.5.0;
 
 
-import "../libraries/AaveDataTypes.sol";
+import "./AaveDataTypes.sol";
 
 interface LendingPoolLike {
     function flashLoan(
