@@ -1,11 +1,11 @@
 pragma solidity >= 0.5.0;
 
-import "./interface/IERC3156FlashLender.sol";
-import "./interface/IERC3156FlashBorrower.sol";
-import "./interface/IVatDaiFlashLoanReceiver.sol";
-import "dss-interfaces/dss/VatAbstract.sol";
-import "dss-interfaces/dss/DaiJoinAbstract.sol";
-import "dss-interfaces/dss/DaiAbstract.sol";
+import "./IERC3156FlashLender.sol";
+import "./IERC3156FlashBorrower.sol";
+import "./IVatDaiFlashLoanReceiver.sol";
+import "./VatAbstract.sol";
+import "./DaiJoinAbstract.sol";
+import "./DaiAbstract.sol";
 
 interface VatLike {
     function dai(address) external view returns (uint256);
@@ -26,10 +26,10 @@ contract DssFlash is IERC3156FlashLender {
     }
 
     // --- Data ---
-    VatAbstract public immutable        vat;
-    address public immutable            vow;
-    DaiJoinAbstract public immutable    daiJoin;
-    DaiAbstract public immutable        dai;
+    VatAbstract public         vat;
+    address public             vow;
+    DaiJoinAbstract public     daiJoin;
+    DaiAbstract public         dai;
     
     uint256 public                      line;       // Debt Ceiling  [wad]
     uint256 public                      toll;       // Fee           [wad]
@@ -65,24 +65,14 @@ contract DssFlash is IERC3156FlashLender {
     }
 
     // --- Math ---
-    uint256 constant WAD = 10 ** 18;
-    uint256 constant RAY = 10 ** 27;
-    uint256 constant RAD = 10 ** 45;
+    uint256  WAD = 10 ** 18;
+    uint256  RAY = 10 ** 27;
+    uint256  RAD = 10 ** 45;
     function add(uint256 x, uint256 y) internal pure returns (uint256 z) {
         require((z = x + y) >= x);
     }
     function mul(uint256 x, uint256 y) internal pure returns (uint256 z) {
         require(y == 0 || (z = x * y) / y == x);
-    }
-
-    // --- Administration ---
-    function file(bytes32 what, uint256 data) external auth {
-        if (what == "line") {
-            // Add an upper limit of 10^27 DAI to avoid breaking technical assumptions of DAI << 2^256 - 1
-            require((line = data) <= RAD, "DssFlash/ceiling-too-high");
-        } else if (what == "toll") toll = data;
-        else revert("DssFlash/file-unrecognized-param");
-        emit File(what, data);
     }
 
     // --- ERC 3156 Spec ---
