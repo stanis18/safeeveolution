@@ -4,16 +4,16 @@
 pragma solidity >= 0.5.0;
 
 
-import {Address} from "@OpenZeppelin/utils/Address.sol";
-import {IERC20} from "@OpenZeppelin/token/ERC20/IERC20.sol";
+import {Address} from "./Address.sol";
+import {IERC20} from "./IERC20.sol";
 
 import {ArgobytesClone} from "./ArgobytesClone.sol";
 
-import {ArgobytesAuthTypes} from "contracts/abstract/ArgobytesAuth.sol";
-import {Address2} from "contracts/library/Address2.sol";
-import {Bytes2} from "contracts/library/Bytes2.sol";
-import {IERC3156FlashBorrower} from "contracts/external/erc3156/IERC3156FlashBorrower.sol";
-import {IERC3156FlashLender} from "contracts/external/erc3156/IERC3156FlashLender.sol";
+import {ArgobytesAuthTypes} from "./ArgobytesAuth.sol";
+import {Address2} from "./Address2.sol";
+// import {Bytes2} from "contracts/library/Bytes2.sol";
+import {IERC3156FlashBorrower} from "./IERC3156FlashBorrower.sol";
+import {IERC3156FlashLender} from "./IERC3156FlashLender.sol";
 
 contract ArgobytesFlashBorrower is ArgobytesClone, IERC3156FlashBorrower {
 
@@ -28,9 +28,9 @@ contract ArgobytesFlashBorrower is ArgobytesClone, IERC3156FlashBorrower {
     }
     function flashBorrowerStorage() internal pure returns (FlashBorrowerStorage storage s) {
         bytes32 position = FLASH_BORROWER_POSITION;
-        assembly {
-            s.slot := position
-        }
+        // assembly {
+        //     s.slot := position
+        // }
     }
 
     function approveLender(IERC3156FlashLender lender) external auth(ArgobytesAuthTypes.Call.ADMIN) {
@@ -58,7 +58,7 @@ contract ArgobytesFlashBorrower is ArgobytesClone, IERC3156FlashBorrower {
 
         // check auth
         if (msg.sender != owner()) {
-            requireAuth(action.target, action.call_type, Bytes2.toBytes4(action.target_calldata));
+            // requireAuth(action.target, action.call_type, Bytes2.toBytes4(action.target_calldata));
         }
         require(
             s.lenders[lender],

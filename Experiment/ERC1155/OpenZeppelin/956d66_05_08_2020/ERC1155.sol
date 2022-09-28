@@ -95,7 +95,7 @@ contract ERC1155 is ERC165, IERC1155
         /// @notice invariant forall(uint k)  ids[k] == __verifier_old_uint(ids[k])
         /// @notice invariant forall (uint j) !(0 <= j && j < i && j < accounts.length ) || batchBalances[j] == _balances[ids[j]][accounts[j]]
         for (uint256 i = 0; i < accounts.length; ++i) {
-            require(accounts[i] != address(0), "ERC1155: some address in batch balance query is zero");
+            // require(accounts[i] != address(0), "ERC1155: some address in batch balance query is zero");
             batchBalances[i] = _balances[ids[i]][accounts[i]];
         }
 
@@ -145,8 +145,8 @@ contract ERC1155 is ERC165, IERC1155
     /// @notice postcondition to != address(0)
     /// @notice postcondition _operatorApprovals[from][msg.sender] || from == msg.sender
     /// @notice postcondition __verifier_old_uint ( _balances[id][from] ) >= value    
-    /// @notice postcondition _balances[id][from] == __verifier_old_uint ( _balances[id][from] ) - value
-    /// @notice postcondition _balances[id][to] == __verifier_old_uint ( _balances[id][to] ) + value
+    /// @notice postcondition _balances[id][from] == __verifier_old_uint ( _balances[id][from] ) - value || from == to
+    /// @notice postcondition _balances[id][to] == __verifier_old_uint ( _balances[id][to] ) + value || from == to
     /// @notice emits TransferSingle 
     function safeTransferFrom(
         address from,
@@ -182,8 +182,15 @@ contract ERC1155 is ERC165, IERC1155
         @param values Transfer amounts per token type
         @param data Data forwarded to `onERC1155Received` if `to` is a contract receiver
     */
+
+    /// @notice precondition forall (uint x) !(x >= 0 && x < values.length) || values[x] >= 0 
+    /// @notice precondition !__verifier_eq(ids,values)
     /// @notice postcondition _operatorApprovals[from][msg.sender] || from == msg.sender
     /// @notice postcondition to != address(0)
+    /// @notice postcondition ids.length == values.length
+    /// @notice postcondition forall (uint x) !(x >= 0 && x < ids.length) || _balances[ids[x]][from] <= __verifier_old_uint (_balances[ids[x]][from] ) || from == to 
+    /// @notice postcondition forall (uint x) !(x >= 0 && x < ids.length) || _balances[ids[x]][to] >= __verifier_old_uint (_balances[ids[x]][to] ) || from == to 
+    /// @notice postcondition forall (uint x, address addr) (addr == from || addr == to || __verifier_old_uint(_balances[ids[x]][addr]) == _balances[ids[x]][addr])
     /// @notice emits TransferBatch 
     function safeBatchTransferFrom(
         address from,
@@ -201,15 +208,19 @@ contract ERC1155 is ERC165, IERC1155
             "ERC1155: need operator approval for 3rd party transfers"
         );
 
+        // / @notice invariant ids[i] == __verifier_old_uint(ids[i])
+        // / @notice invariant values[i] == __verifier_old_uint(values[i])
+
+        /// @notice invariant ids.length == values.length
+        /// @notice invariant forall (uint x) !(x >= 0 && x < ids.length) || _balances[ids[x]][from] <= __verifier_old_uint (_balances[ids[x]][from] ) || from == to 
+        /// @notice invariant forall (uint x) !(x >= 0 && x < ids.length) || _balances[ids[x]][to] >= __verifier_old_uint (_balances[ids[x]][to] ) || from == to 
+        /// @notice invariant forall (uint x, address addr) (addr == from || addr == to || __verifier_old_uint(_balances[ids[x]][addr]) == _balances[ids[x]][addr])
         for (uint256 i = 0; i < ids.length; ++i) {
             uint256 id = ids[i];
             uint256 value = values[i];
             
-            _balances[id][from] = _balances[id][from].sub(
-                value,
-                "ERC1155: insufficient balance of some token type for transfer"
-            );
-            _balances[id][to] = _balances[id][to].add(value);
+            _balances[id][from] = _balances[id][from] - value;
+            _balances[id][to] =   _balances[id][to] + value;
         }
 
         emit TransferBatch(msg.sender, from, to, ids, values);
