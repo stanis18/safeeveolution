@@ -2,8 +2,6 @@
 pragma solidity >= 0.5.0;
 
 
-import "./AaveDataTypes.sol";
-
 interface LendingPoolLike {
     function flashLoan(
         address receiverAddress,
@@ -15,5 +13,5 @@ interface LendingPoolLike {
         uint16 referralCode
     ) external;
 
-    function getReserveData(address asset) external view returns (AaveDataTypes.ReserveData memory);
+    // function getReserveData(address asset) external view returns (AaveDataTypes.ReserveData memory);
 }
